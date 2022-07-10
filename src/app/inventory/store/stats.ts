@@ -152,7 +152,10 @@ export function buildStats(
       investmentStats.push(cStat);
     }
   }
-
+  // TODO: rounding, correct calc from weapon type, maybe put next to real number
+  if (investmentStats[3].statHash === StatHashes.Range) {
+    investmentStats[3].value = investmentStats[3].value * 0.0891 + 8.83;
+  }
   return investmentStats.length ? investmentStats.sort(compareBy((s) => s.sort)) : null;
 }
 
