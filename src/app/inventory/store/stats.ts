@@ -157,7 +157,7 @@ export function buildStats(
     [0.0864, 0.099, 0.0963, 0.072, 0.1521, 0.0306, 0.0891, 0.09, 0.036, 0.0324],
     [16.96, 20.0, 11.87, 17.3, 30.899, 11.94, 8.83, 16.0, 3.4, 10.56],
   ];
-  if (investmentStats[3].statHash === StatHashes.Range) {
+  if (investmentStats.length >= 4 && investmentStats[3].statHash === StatHashes.Range) {
     if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.HandCannon)) {
       if (
         investmentStats[1].statHash === StatHashes.RoundsPerMinute &&
