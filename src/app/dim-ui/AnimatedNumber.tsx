@@ -1,5 +1,5 @@
 import { animate, Tween, useMotionValue } from 'framer-motion';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const spring: Tween = {
   type: 'tween',
@@ -26,5 +26,5 @@ export default function AnimatedNumber({ value }: { value: number }) {
     return controls.stop;
   }, [val, value]);
 
-  return <span ref={ref}>{Math.floor(value)}</span>;
+  return <span ref={ref}>{Math.round(value * 100) / 100}</span>;
 }
