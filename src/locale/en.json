@@ -571,6 +571,7 @@
     "CurrentlyEquipped": "Currently Equipped",
     "Deequip": "De-equipping items from other characters",
     "Delete": "Delete",
+    "Down": "Down",
     "Edit": "Edit Loadout",
     "EditBrief": "Edit",
     "EquipItems": "Equipping items",
@@ -674,6 +675,7 @@
     "UnassignedModError": "Mod didn't fit on your current armor",
     "UnassignedMods": "Unassigned Mods",
     "Unequipped": "Unequipped",
+    "Up": "Up",
     "Update": "Save Changes",
     "VendorsCannotEquip": "You don't have these items. Tap to pick a replacement or click the X to remove:",
     "WeaponsOnly": "Weapons Only"
