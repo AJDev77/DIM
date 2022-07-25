@@ -23,6 +23,7 @@ import { querySelector, useIsPhonePortrait } from 'app/shell/selectors';
 import { useThunkDispatch } from 'app/store/thunk-dispatch';
 import { streamDeckSelectionSelector } from 'app/stream-deck/selectors';
 import { streamDeckSelectLoadout } from 'app/stream-deck/stream-deck';
+import { infoLog } from 'app/utils/log';
 import { Portal } from 'app/utils/temp-container';
 import { DestinyClass } from 'bungie-api-ts/destiny2';
 import _ from 'lodash';
@@ -48,6 +49,7 @@ export default function LoadoutsContainer({ account }: { account: DestinyAccount
   return <Loadouts account={account} />;
 }
 
+let allLoadouts: Loadout[];
 function Loadouts({ account }: { account: DestinyAccount }) {
   const stores = useSelector(sortedStoresSelector);
   const currentStore = getCurrentStore(stores)!;
@@ -55,7 +57,7 @@ function Loadouts({ account }: { account: DestinyAccount }) {
   const [sharedLoadout, setSharedLoadout] = useState<Loadout>();
   const selectedStore = getStore(stores, selectedStoreId)!;
   const classType = selectedStore.classType;
-  const allLoadouts = useSelector(loadoutsSelector);
+  allLoadouts = useSelector(loadoutsSelector);
   const [loadoutSort, setLoadoutSort] = useSetting('loadoutSort');
   const isPhonePortrait = useIsPhonePortrait();
   const query = useSelector(querySelector);
@@ -195,6 +197,55 @@ function LoadoutRow({
       dispatch(applyLoadout(store, loadout, { allowUndo: true, onlyMatchingClass: true }));
 
     const handleEdit = () => editLoadout(loadout, store.id, { isNew: !saved });
+
+    const handleUp = () => {
+      let count = 0;
+      for (let i = 0; i < allLoadouts.length; i++) {
+        if (allLoadouts[i].id === loadout.id && i !== 0) {
+          let offset = 1;
+          while (i - offset >= 0 && allLoadouts[i - offset].classType !== loadout.classType) {
+            offset++;
+            count++;
+          }
+          const temp = allLoadouts[i - offset];
+          allLoadouts[i - offset] = loadout;
+          allLoadouts[i] = temp;
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < allLoadouts.length; i++) {
+        infoLog('to', allLoadouts[i]);
+      }
+      infoLog('to', count);
+    };
+
+    const handleDown = () => {
+      let count = 0;
+      for (let i = 0; i < allLoadouts.length; i++) {
+        if (allLoadouts[i].id === loadout.id && i !== allLoadouts.length - 1) {
+          let offset = 1;
+
+          while (
+            i + offset < allLoadouts.length &&
+            allLoadouts[i + offset].classType !== loadout.classType
+          ) {
+            infoLog('to', allLoadouts[i + offset].classType, loadout.classType);
+            offset++;
+            count++;
+          }
+          const temp = allLoadouts[i + offset];
+          allLoadouts[i + offset] = loadout;
+          allLoadouts[i] = temp;
+          break;
+        }
+      }
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < allLoadouts.length; i++) {
+        infoLog('to', allLoadouts[i]);
+      }
+      infoLog('to', count);
+    };
+
     const actionButtons: ReactNode[] = [];
 
     if (equippable) {
@@ -216,6 +267,18 @@ function LoadoutRow({
       actionButtons.push(
         <button key="apply" type="button" className="dim-button" onClick={handleApply}>
           {t('Loadouts.Apply')}
+        </button>
+      );
+
+      actionButtons.push(
+        <button key="Up" type="button" className="dim-button" onClick={handleUp}>
+          {t('Loadouts.Up')}
+        </button>
+      );
+
+      actionButtons.push(
+        <button key="Down" type="button" className="dim-button" onClick={handleDown}>
+          {t('Loadouts.Down')}
         </button>
       );
     }
