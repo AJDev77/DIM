@@ -667,6 +667,7 @@
     "SocketOverrides": "Changing subclass options",
     "SortByEditTime": "Sort by last edited",
     "SortByName": "Sort by name",
+    "SortByCustom": "Sort by custom",
     "SubclassOptions": "{{subclass}} options",
     "SubclassOptionsSearch": "Search {{subclass}} options",
     "Succeeded": "Loadout succeeded",

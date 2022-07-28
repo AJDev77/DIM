@@ -1,4 +1,4 @@
-import { LoadoutSort } from '@destinyitemmanager/dim-api-types';
+import { LoadoutSort } from '@destinyitemmanager/dim-api-types/loadouts';
 import { DestinyAccount } from 'app/accounts/destiny-account';
 import { languageSelector } from 'app/dim-api/selectors';
 import CharacterSelect from 'app/dim-ui/CharacterSelect';
@@ -10,7 +10,7 @@ import { sortedStoresSelector } from 'app/inventory/selectors';
 import { DimStore } from 'app/inventory/store-types';
 import { useLoadStores } from 'app/inventory/store/hooks';
 import { getCurrentStore, getStore } from 'app/inventory/stores-helpers';
-import { deleteLoadout } from 'app/loadout-drawer/actions';
+import { deleteLoadout, updateLoadout } from 'app/loadout-drawer/actions';
 import { applyLoadout } from 'app/loadout-drawer/loadout-apply';
 import { editLoadout } from 'app/loadout-drawer/loadout-events';
 import { Loadout } from 'app/loadout-drawer/loadout-types';
@@ -58,6 +58,20 @@ function Loadouts({ account }: { account: DestinyAccount }) {
   const selectedStore = getStore(stores, selectedStoreId)!;
   const classType = selectedStore.classType;
   allLoadouts = useSelector(loadoutsSelector);
+  const test = 1;
+  let test1 = 0;
+  // TODO: make custom position save in dim+ sync+, and change hardcoded 2
+  for (let i = 0; i < allLoadouts.length; i++) {
+    if (allLoadouts[i].customPosition === undefined) {
+      allLoadouts[i].customPosition = test1;
+      test1++;
+      if (test1 === test) {
+        test1++;
+      }
+      infoLog('TEST', 'set loadout id', i);
+    }
+    infoLog('to', allLoadouts[i]);
+  }
   const [loadoutSort, setLoadoutSort] = useSetting('loadoutSort');
   const isPhonePortrait = useIsPhonePortrait();
   const query = useSelector(querySelector);
@@ -72,7 +86,11 @@ function Loadouts({ account }: { account: DestinyAccount }) {
             loadout.classType === DestinyClass.Unknown ||
             loadout.classType === classType
         ),
-        loadoutSort === LoadoutSort.ByEditTime ? (l) => -(l.lastUpdatedAt ?? 0) : (l) => l.name
+        loadoutSort === LoadoutSort.ByEditTime
+          ? (l) => -(l.lastUpdatedAt ?? 0)
+          : loadoutSort === 2
+          ? (l) => l.customPosition
+          : (l) => l.name
       ),
     [allLoadouts, classType, loadoutSort]
   );
@@ -107,6 +125,11 @@ function Loadouts({ account }: { account: DestinyAccount }) {
       key: 'name',
       content: t('Loadouts.SortByName'),
       value: LoadoutSort.ByName,
+    },
+    {
+      key: 'custom',
+      content: t('Loadouts.SortByCustom'),
+      value: 2,
     },
   ];
 
@@ -209,7 +232,9 @@ function LoadoutRow({
           }
           const temp = allLoadouts[i - offset];
           allLoadouts[i - offset] = loadout;
+          loadout.customPosition = i - offset;
           allLoadouts[i] = temp;
+          temp.customPosition = i;
         }
       }
       // eslint-disable-next-line @typescript-eslint/prefer-for-of
@@ -217,6 +242,7 @@ function LoadoutRow({
         infoLog('to', allLoadouts[i]);
       }
       infoLog('to', count);
+      dispatch(updateLoadout(loadout));
     };
 
     const handleDown = () => {
@@ -235,7 +261,9 @@ function LoadoutRow({
           }
           const temp = allLoadouts[i + offset];
           allLoadouts[i + offset] = loadout;
+          loadout.customPosition = i + offset;
           allLoadouts[i] = temp;
+          temp.customPosition = i;
           break;
         }
       }
@@ -244,6 +272,7 @@ function LoadoutRow({
         infoLog('to', allLoadouts[i]);
       }
       infoLog('to', count);
+      dispatch(updateLoadout(loadout));
     };
 
     const actionButtons: ReactNode[] = [];

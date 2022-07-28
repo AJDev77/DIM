@@ -724,6 +724,7 @@
     "SaveAsNewTooltip": "Keep the original loadout and save this as a new loadout",
     "SortByName": "Sort by name",
     "SortByEditTime": "Sort by last edited",
+    "SortByCustom": "Sort by custom",
     "Share": {
       "Title": "Share \"{{name}}\"",
       "Placeholder": "Loading share link",
