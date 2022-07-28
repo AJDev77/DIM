@@ -1,5 +1,9 @@
 ## Next
 
+* Hid Solstice armor rerolling sockets from Loadout Optimizer too.
+
+## 7.27.0 <span class="changelog-date">(2022-07-24)</span>
+
 ## 7.26.1 <span class="changelog-date">(2022-07-23)</span>
 
 * Added Solstice event challenges to the Progress page.
@@ -241,6 +245,7 @@
 * Loadout Optimizer Mod picker will now correctly update when switching between mod slots without closing Mod Picker.
 * Loadout Optimizer now correctly takes Echo of Persistence's class-specific stat reductions into account when generating sets.
 * The "Kinetic Slot" icon in Compare sheet now looks different from the "Kinetic Damage" icon.
+* Added `catalyst:` filter which accepts the following parameters `missing`, `complete`, and `incomplete`.
 
 ### Features
 
