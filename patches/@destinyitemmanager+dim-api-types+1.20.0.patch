@@ -1,0 +1,24 @@
+diff --git a/node_modules/@destinyitemmanager/dim-api-types/loadouts.d.ts b/node_modules/@destinyitemmanager/dim-api-types/loadouts.d.ts
+index 957a1fb..d730a27 100644
+--- a/node_modules/@destinyitemmanager/dim-api-types/loadouts.d.ts
++++ b/node_modules/@destinyitemmanager/dim-api-types/loadouts.d.ts
+@@ -44,6 +44,9 @@ export interface Loadout {
+     createdAt?: number;
+     /** When was this Loadout last changed? Tracked automatically by the API - when saving a loadout this field is ignored. */
+     lastUpdatedAt?: number;
++
++    /** Position in the custom sort */
++    customPosition?: number;
+     /**
+      * Automatically added stat mods. These are separate from the manually chosen
+      * mods in parameters.mods, and are saved here to avoid having to figure them
+@@ -88,7 +91,8 @@ export declare const enum LockArmorEnergyType {
+ /** How the loadouts menu and page should be sorted */
+ export declare const enum LoadoutSort {
+     ByEditTime = 0,
+-    ByName = 1
++    ByName = 1,
++    ByCustom = 2
+ }
+ /**
+  * Parameters that explain how this loadout was chosen (in Loadout Optimizer)
