@@ -157,7 +157,24 @@ export function buildStats(
     [0.0864, 0.099, 0.0963, 0.072, 0.1521, 0.0306, 0.0891, 0.09, 0.036, 0.0324],
     [16.96, 20.0, 11.87, 17.3, 30.899, 11.94, 8.83, 16.0, 3.4, 10.56],
   ];
-  if (investmentStats.length >= 4 && investmentStats[3].statHash === StatHashes.Range) {
+  const reloadParameters = [
+    [0.00316922, -0.870122, 92.5862],
+    [0.00477848, -1.30872, 138.482],
+    [0.0034304, -0.924866, 96.6938],
+    [0.00381167, -0.999196, 103.15],
+    [0.000882635, -0.432829, 68.6402],
+    [0.00225423, -0.6829, 85.4344],
+    [0.00227882, -0.705757, 91.6868],
+    [0.00237208, -0.519846, 42.4795],
+    [0.00249814, -0.821771, 123.12],
+    [0.00268222, -0.775084, 104.714],
+    [0.00279716, -0.885767, 132.442],
+    [0.00217949, -0.709871, 93.0427],
+    [0.00335315, -1.08646, 194.189],
+    [0.00385034, -0.917237, 131.542],
+  ];
+  // check stat 3 to make sure range
+  if (investmentStats.length >= 4) {
     if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.HandCannon)) {
       if (
         investmentStats[1].statHash === StatHashes.RoundsPerMinute &&
@@ -169,30 +186,108 @@ export function buildStats(
         investmentStats[3].value =
           investmentStats[3].value * rangeConversionVals[0][1] + rangeConversionVals[1][1];
       }
+      investmentStats[6].value =
+        (reloadParameters[1][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[1][1] * investmentStats[6].value +
+          reloadParameters[1][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.AutoRifle)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][2] + rangeConversionVals[1][2];
+      investmentStats[6].value =
+        (reloadParameters[0][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[0][1] * investmentStats[6].value +
+          reloadParameters[0][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.PulseRifle)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][3] + rangeConversionVals[1][3];
+      investmentStats[6].value =
+        (reloadParameters[2][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[2][1] * investmentStats[6].value +
+          reloadParameters[2][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.ScoutRifle)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][4] + rangeConversionVals[1][4];
+      investmentStats[6].value =
+        (reloadParameters[3][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[3][1] * investmentStats[6].value +
+          reloadParameters[3][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.Sidearm)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][5] + rangeConversionVals[1][5];
+      investmentStats[6].value =
+        (reloadParameters[4][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[4][1] * investmentStats[6].value +
+          reloadParameters[4][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.SubmachineGuns)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][6] + rangeConversionVals[1][6];
+      investmentStats[6].value =
+        (reloadParameters[5][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[5][1] * investmentStats[6].value +
+          reloadParameters[5][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.TraceRifles)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][7] + rangeConversionVals[1][7];
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.Shotgun)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][8] + rangeConversionVals[1][8];
+      investmentStats[6].value =
+        (reloadParameters[7][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[7][1] * investmentStats[6].value +
+          reloadParameters[7][2]) /
+        30;
     } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.FusionRifle)) {
       investmentStats[3].value =
         investmentStats[3].value * rangeConversionVals[0][9] + rangeConversionVals[1][9];
+      investmentStats[6].value =
+        (reloadParameters[6][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[6][1] * investmentStats[6].value +
+          reloadParameters[6][2]) /
+        30;
+    } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.SniperRifle)) {
+      investmentStats[6].value =
+        (reloadParameters[8][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[8][1] * investmentStats[6].value +
+          reloadParameters[8][2]) /
+        30;
+    } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.GrenadeLaunchers)) {
+      if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.PowerWeapon)) {
+        investmentStats[6].value =
+          (reloadParameters[10][0] * Math.pow(investmentStats[6].value, 2) +
+            reloadParameters[10][1] * investmentStats[6].value +
+            reloadParameters[10][2]) /
+          30;
+      } else {
+        investmentStats[6].value =
+          (reloadParameters[9][0] * Math.pow(investmentStats[6].value, 2) +
+            reloadParameters[9][1] * investmentStats[6].value +
+            reloadParameters[9][2]) /
+          30;
+      }
+    } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.LinearFusionRifles)) {
+      investmentStats[6].value =
+        (reloadParameters[11][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[11][1] * investmentStats[6].value +
+          reloadParameters[11][2]) /
+        30;
+    } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.MachineGun)) {
+      investmentStats[6].value =
+        (reloadParameters[12][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[12][1] * investmentStats[6].value +
+          reloadParameters[12][2]) /
+        30;
+    } else if (itemDef.itemCategoryHashes?.includes(ItemCategoryHashes.RocketLauncher)) {
+      investmentStats[6].value =
+        (reloadParameters[13][0] * Math.pow(investmentStats[6].value, 2) +
+          reloadParameters[13][1] * investmentStats[6].value +
+          reloadParameters[13][2]) /
+        30;
     }
   }
   return investmentStats.length ? investmentStats.sort(compareBy((s) => s.sort)) : null;
